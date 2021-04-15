@@ -1,0 +1,22 @@
+{
+  "name": "sinri/ark-static-docs",
+  "description": "A static document project with Ark",
+  "minimum-stability": "stable",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sinri Edogawa",
+      "email": "e.joshua.s.e@gmail.com"
+    }
+  ],
+  "require": {
+    "sinri/ark": "~3.4",
+    "erusev/parsedown": "~1.7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "sinri\\ArkStaticDocs\\": "src/"
+    }
+  }
+}
