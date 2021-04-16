@@ -51,6 +51,7 @@ class ArkStaticDocsService
      * @param string $pathPrefix empty or 'xxx' (without tail `/`) @since 0.2.0
      * @param DocumentViewHandler|null $documentViewHandler
      * @param CatalogueViewHandler|null $catalogueViewHandler
+     * @since 0.2.1 removed param PageErrorHandler|null $pageErrorHandler
      */
     public function __construct(
         ArkWebService $arkWebService,
