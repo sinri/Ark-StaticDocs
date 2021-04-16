@@ -8,12 +8,13 @@ use sinri\ark\io\ArkWebOutput;
 use sinri\ark\StaticDocs\handler\CatalogueViewHandler;
 use sinri\ark\StaticDocs\handler\DocumentViewHandler;
 use sinri\ark\StaticDocs\handler\PageErrorHandler;
+use sinri\ark\web\ArkRouteErrorHandlerInterface;
 use sinri\ark\web\ArkWebService;
 
 /**
  * Class ArkStaticDocsService
  * @package sinri\ark\StaticDocs
- * @version 0.1.1
+ * @version 0.2.1
  */
 class ArkStaticDocsService
 {
@@ -48,7 +49,6 @@ class ArkStaticDocsService
      * @param ArkWebService $arkWebService
      * @param string $docRootPath
      * @param string $pathPrefix empty or 'xxx' (without tail `/`) @since 0.2.0
-     * @param PageErrorHandler|null $pageErrorHandler
      * @param DocumentViewHandler|null $documentViewHandler
      * @param CatalogueViewHandler|null $catalogueViewHandler
      */
@@ -56,7 +56,7 @@ class ArkStaticDocsService
         ArkWebService $arkWebService,
         string $docRootPath,
         string $pathPrefix = '',
-        ?PageErrorHandler $pageErrorHandler = null,
+
         ?DocumentViewHandler $documentViewHandler = null,
         ?CatalogueViewHandler $catalogueViewHandler = null
     )
@@ -65,9 +65,6 @@ class ArkStaticDocsService
 
         $this->pathPrefix = $pathPrefix;
         $this->docRootPath = $docRootPath;
-
-        if ($pageErrorHandler === null) $pageErrorHandler = new PageErrorHandler();
-        $this->pageErrorHandler = $pageErrorHandler;
 
         if ($documentViewHandler === null) $documentViewHandler = new DocumentViewHandler();
         $this->documentViewHandler = $documentViewHandler;
@@ -78,15 +75,28 @@ class ArkStaticDocsService
     }
 
     /**
+     * This is optional, if the service is to be appended to main erb service, which had set its own.
+     * Should be called before `run`.
+     * @param ArkRouteErrorHandlerInterface $pageErrorHandler
+     * @return $this
+     * @since 0.2.1
+     */
+    public function setRouterErrorHandler(ArkRouteErrorHandlerInterface $pageErrorHandler): ArkStaticDocsService
+    {
+        $router = $this->arkWebService->getRouter();
+        $router->setErrorHandler($pageErrorHandler);
+        return $this;
+    }
+
+    /**
+     * Should be called before `run`.
      * @return $this
      * @since 0.1.1
      * @since 0.2.0 support url path prefix
+     * @since 0.2.1 the router error handler setting is independent
      */
     public function install(): ArkStaticDocsService
     {
-        $router = $this->arkWebService->getRouter();
-        $router->setErrorHandler(new PageErrorHandler());
-
         $docRootPath = $this->docRootPath;
 
         $pathPrefix = $this->pathPrefix;

@@ -25,9 +25,11 @@ $catalogueViewHandler = (new CatalogueViewHandler());
     Ark()->webService(),
     $docRootPath,
     $prefix,
-    $pageErrorHandler,
     $documentViewHandler,
     $catalogueViewHandler
-))->install()->run();
+))
+    ->setRouterErrorHandler($pageErrorHandler)
+    ->install()
+    ->run();
 
 // such as http://localhost/code/ArkStaticDocs/test/web/doc/read/notice.md
