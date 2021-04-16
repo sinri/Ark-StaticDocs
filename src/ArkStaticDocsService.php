@@ -41,17 +41,23 @@ class ArkStaticDocsService
     public function __construct(
         ArkWebService $arkWebService,
         string $docRootPath,
-        PageErrorHandler $pageErrorHandler,
-        DocumentViewHandler $documentViewHandler,
-        CatalogueViewHandler $catalogueViewHandler
+        ?PageErrorHandler $pageErrorHandler = null,
+        ?DocumentViewHandler $documentViewHandler = null,
+        ?CatalogueViewHandler $catalogueViewHandler = null
     )
     {
         $this->arkWebService = $arkWebService;
-        $this->docRootPath = $docRootPath;
-        $this->pageErrorHandler = $pageErrorHandler;
-        $this->documentViewHandler = $documentViewHandler;
-        $this->catalogueViewHandler = $catalogueViewHandler;
 
+        $this->docRootPath = $docRootPath;
+
+        if ($pageErrorHandler === null) $pageErrorHandler = new PageErrorHandler();
+        $this->pageErrorHandler = $pageErrorHandler;
+
+        if ($documentViewHandler === null) $documentViewHandler = new DocumentViewHandler();
+        $this->documentViewHandler = $documentViewHandler;
+
+        if ($catalogueViewHandler === null) $catalogueViewHandler = new CatalogueViewHandler();
+        $this->catalogueViewHandler = $catalogueViewHandler;
         $this->catalogueViewHandler->setDocRootPath($this->docRootPath);
     }
 

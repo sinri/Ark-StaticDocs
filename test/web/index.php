@@ -19,11 +19,10 @@ $documentViewHandler = (new DocumentViewHandler());
 // The handler for catalogue page
 $catalogueViewHandler = (new CatalogueViewHandler());
 
-$staticDocsService = new ArkStaticDocsService(
+(new ArkStaticDocsService(
     Ark()->webService(),
     $docRootPath,
     $pageErrorHandler,
     $documentViewHandler,
     $catalogueViewHandler
-);
-$staticDocsService->run();
+))->run();
