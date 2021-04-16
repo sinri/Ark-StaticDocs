@@ -6,16 +6,17 @@ namespace sinri\ark\StaticDocs\handler;
 
 use Parsedown;
 
+/**
+ * Class DocumentViewHandler
+ * @package sinri\ark\StaticDocs\handler
+ * @version 0.1.0
+ */
 class DocumentViewHandler
 {
     /**
      * @var Parsedown
      */
     protected $parseDownInstance;
-    /**
-     * @var string
-     */
-    protected $title;
     /**
      * The source markdown
      * @var string
@@ -25,6 +26,39 @@ class DocumentViewHandler
      * @var string[]
      */
     protected $components;
+
+    /**
+     * @var string
+     */
+    protected $viewPath;
+
+    public function __construct()
+    {
+        $this->markdown = '404 Page Not Found';
+        $this->components = [];
+
+        $this->viewPath = __DIR__ . '/../view/markdown_page.php';
+
+        $this->parseDownInstance = new Parsedown();
+    }
+
+    /**
+     * @return string
+     */
+    public function getViewPath(): string
+    {
+        return $this->viewPath;
+    }
+
+    /**
+     * @param string $viewPath
+     * @return DocumentViewHandler
+     */
+    public function setViewPath(string $viewPath): DocumentViewHandler
+    {
+        $this->viewPath = $viewPath;
+        return $this;
+    }
 
     /**
      * @return string[]
@@ -44,79 +78,106 @@ class DocumentViewHandler
         return $this;
     }
 
-    public function __construct(
-//        string $title, string $markdown, array $components
-    )
-    {
-//        $this->title = $title;
-//        $this->markdown = $markdown;
-//        $this->components = $components;
-
-        $this->parseDownInstance = new Parsedown();
-    }
-
+    /**
+     * The header logo div HTML
+     * Override this method to customize
+     * @return string
+     */
     public function getLogoDiv(): string
     {
         return 'ArkStaticDocs';
     }
 
+    /**
+     * The footer div HTML
+     * Override this method to customize
+     * @return string
+     */
     public function getFooterDiv(): string
     {
         return 'Copyright Sinri Edogawa & Leqee 2021';
     }
 
-    public function getRelativeWebPath():string{
-        $totalComponents=count($this->components);
-        if (count($this->components) > 1) {
-            $link='..';
-            $link .= str_repeat('/..', $totalComponents - 1);
-        }elseif(count($this->components)==1) {
-            $link='..';
-        }else{
-            $link='.';
-        }
-        return $link;
-    }
-
-    public function getCatalogueLink($withFromDoc=false): string
+    /**
+     * The target link in footer catalogue link <a/>
+     * @param bool $withFromDoc If the target link to return should append from_doc query string
+     * @return string
+     */
+    final public function getCatalogueLink($withFromDoc = false): string
     {
-//        $totalComponents=count($this->components);
-//        if (count($this->components) > 1) {
-//            $link='..';
-//            $link .= str_repeat('/..', $totalComponents - 1);
-//        }elseif(count($this->components)==1) {
-//            $link='..';
-//        }else{
-//            $link='.';
-//        }
-//        $link.='/catalogue';
-        $link=$this->getRelativeWebPath().'/catalogue';
-        if($withFromDoc){
-            $link.='?from_doc=./read/'.implode('/',$this->components);
+        $link = $this->getRelativeWebPath() . '/catalogue';
+        if ($withFromDoc) {
+            $link .= '?from_doc=./read/' . implode('/', $this->components);
         }
         return $link;
     }
 
+    final public function getRelativeWebPath(): string
+    {
+        $totalComponents = count($this->components);
+        if (count($this->components) > 1) {
+            $link = '..';
+            $link .= str_repeat('/..', $totalComponents - 1);
+        } elseif (count($this->components) == 1) {
+            $link = '..';
+        } else {
+            $link = '.';
+        }
+        return $link;
+    }
 
     /**
+     * The title written in header of the page
+     * Override this method to customize
      * @return string
      */
     public function getTitle(): string
     {
-        return $this->title;
+        if (empty($this->components)) {
+            return '404 - Page Not Found';
+        }
+
+        $titleComponents = [];
+        foreach ($this->components as $component) {
+            $titleComponents[] = self::parseNameToTitle($component);
+        }
+        $titleComponents = array_reverse($titleComponents);
+        $titleComponents = implode(' - ', $titleComponents);
+        return "{$titleComponents} | Elihu Miner Documents";
     }
 
     /**
-     * @param string $title
-     * @return DocumentViewHandler
+     * @param string $name
+     * @return string
+     *
+     * The rules:
+     * (0) names are alike `[A-Za-z0-9.()\[\]%_-]+(\.md)?`;
+     * (1) all underline chars (`_`) become space chars (` `);
      */
-    public function setTitle(string $title): DocumentViewHandler
+    public static function parseNameToTitle(string $name): string
     {
-        $this->title = $title;
-        return $this;
+        if (preg_match('/^([A-Za-z0-9.()\[\]%_-]+)\.md$/', $name, $matches)) {
+            $rawName = $matches[1];
+            return str_replace('_', ' ', $rawName);
+        } elseif (preg_match('/^([A-Za-z0-9.()\[\]%_-]+)$/', $name, $matches)) {
+            $rawName = $matches[1];
+            return str_replace('_', ' ', $rawName);
+        } else {
+            return str_replace('/[^A-Za-z0-9.()\[\]%-]+/', ' ', $name);
+        }
     }
 
     /**
+     * The content in HTML from the target Markdown
+     * @return string
+     */
+    public function getParsedHtmlOfMarkdown(): string
+    {
+        return $this->parseDownInstance->text($this->getMarkdown());
+    }
+
+    /**
+     * the raw content of the target Markdown
      * @return string
      */
     public function getMarkdown(): string
@@ -134,34 +195,28 @@ class DocumentViewHandler
         return $this;
     }
 
-    public function getParsedHtmlOfMarkdown(): string
+    final public function handleFile(string $realPath, array $components)
     {
-        return $this->parseDownInstance->text($this->getMarkdown());
-    }
-
-    public function handleFile(string $realPath, array $components)
-    {
-//        echo json_encode(['type'=>'file','realpath'=>$realPath,'components'=>$components]);
-
-        $title = implode('::', $components);
-        $title = "Page [{$title}] of Elihu Miner Documents";
-
-        $md_str = file_get_contents($realPath);
+        $this->setComponents($components);
+        $this->setMarkdown(file_get_contents($realPath));
 
         Ark()->webOutput()->displayPage(
-            __DIR__ . '/../view/markdown_page.php',
+            $this->viewPath,
             [
-                'viewHandler' => (new static())->setTitle($title)->setMarkdown($md_str)->setComponents($components),
-                //($title, $md_str,$components)
+                'viewHandler' => $this,
             ]
         );
     }
 
+    /**
+     * The breadcrumb div HTML in header
+     * @return string
+     */
     public function computeBreadcrumbDiv(): string
     {
         $links = [];
 
-        $tailChar='‣';// '→';
+        $tailChar = '‣';// '→';
 
         if (count($this->components) > 1) {
             $x = count($this->components) - 1;
@@ -171,24 +226,20 @@ class DocumentViewHandler
             }
 
             $href = implode('/', $y) . '/';
-//            echo "<a href='$href'>Home</a> → ";
             $links[] = ['href' => $href, 'title' => 'Home', 'tail' => $tailChar];
             array_shift($y);
 
             for ($i = 0; $i < count($this->components) - 2; $i++) {
                 $href = implode('/', $y) . '/';
-//                echo "<a href='{$href}'>{$components[$i]} ({$href})</a> → ";
                 $links[] = ['href' => $href, 'title' => self::parseNameToTitle($this->components[$i]), 'tail' => $tailChar];
                 array_shift($y);
             }
-//            echo "<a href='./'>{$components[count($components)-2]}</a> → ";
             $links[] = ['href' => './', 'title' => self::parseNameToTitle($this->components[count($this->components) - 2]), 'tail' => $tailChar];
-//            echo $this->components[count($this->components) - 1];
             $links[] = ['href' => './' . $this->components[count($this->components) - 1], 'title' => self::parseNameToTitle($this->components[count($this->components) - 1]), 'tail' => ''];
-        } elseif(count($this->components)==1) {
+        } elseif (count($this->components) == 1) {
             $links[] = ['href' => './', 'title' => 'Home', 'tail' => $tailChar];
             $links[] = ['href' => './' . $this->components[count($this->components) - 1], 'title' => self::parseNameToTitle($this->components[count($this->components) - 1]), 'tail' => ''];
-        }else{
+        } else {
             $links[] = ['href' => './' . $this->components[count($this->components) - 1], 'title' => self::parseNameToTitle($this->components[count($this->components) - 1]), 'tail' => ''];
         }
 
@@ -197,26 +248,5 @@ class DocumentViewHandler
             $s .= "<a href='{$link['href']}'>{$link['title']}</a> {$link['tail']} ";
         }
         return $s;
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     *
-     * The rules:
-     * (0) names are alike `[A-Za-z0-9.()\[\]%_-]+(\.md)?`;
-     * (1) all underline chars (`_`) become space chars (` `);
-     */
-    public static function parseNameToTitle(string $name): string
-    {
-        if(preg_match('/^([A-Za-z0-9.()\[\]%_-]+)\.md$/',$name,$matches)){
-            $rawName=$matches[1];
-            return str_replace('_',' ',$rawName);
-        }elseif(preg_match('/^([A-Za-z0-9.()\[\]%_-]+)$/',$name,$matches)){
-            $rawName=$matches[1];
-            return str_replace('_',' ',$rawName);
-        }else{
-            return str_replace('/[^A-Za-z0-9.()\[\]%-]+/',' ',$name);
-        }
     }
 }

@@ -7,13 +7,15 @@ namespace sinri\ark\StaticDocs\handler;
 use sinri\ark\core\ArkFSKit;
 use sinri\ark\core\Exception\NotADirectoryException;
 use sinri\ark\io\ArkWebInput;
+use sinri\ark\io\ArkWebOutput;
 
+/**
+ * Class CatalogueViewHandler
+ * @package sinri\ark\StaticDocs\handler
+ * @version 0.1.0
+ */
 class CatalogueViewHandler
 {
-    /**
-     * @var string
-     */
-    protected $title;
     /**
      * @var string
      */
@@ -22,12 +24,16 @@ class CatalogueViewHandler
      * @var bool
      */
     protected $isFromDoc;
+    /**
+     * @var string
+     */
+    protected $viewPath;
 
     public function __construct()
     {
-//        $this->title = $title;
-//        $this->docRootPath = $docRootPath;
+        $this->docRootPath = '/dev/null';
         $this->isFromDoc = ArkWebInput::getSharedInstance()->readGet('from_doc', false) !== false;
+        $this->viewPath = __DIR__ . '/../view/catalogue_page.php';
     }
 
     /**
@@ -57,34 +63,36 @@ class CatalogueViewHandler
     }
 
     /**
+     * The title written in header of the page
+     * Override this method to customize
      * @return string
      */
     public function getTitle(): string
     {
-        return $this->title;
+        return 'Catalogue';
     }
 
     /**
-     * @param string $title
-     * @return CatalogueViewHandler
+     * The header logo div HTML
+     * Override this method to customize
+     * @return string
      */
-    public function setTitle(string $title): CatalogueViewHandler
-    {
-        $this->title = $title;
-        return $this;
-    }
-
     public function getLogoDiv(): string
     {
         return 'ArkStaticDocs Catalogue';
     }
 
+    /**
+     * The footer div HTML
+     * Override this method to customize
+     * @return string
+     */
     public function getFooterDiv(): string
     {
         return 'Copyright Sinri Edogawa & Leqee 2021';
     }
 
-    public function getCatalogueDiv(): string
+    final public function getCatalogueDiv(): string
     {
         try {
             $r = $this->dumpDocTree($this->docRootPath);
@@ -166,9 +174,6 @@ class CatalogueViewHandler
 
         $s = "<div style='margin: auto'>";
         $s .= str_repeat("<div style='display: inline-block;width: 20px;color: lightgrey;border-left: 1px solid lightgrey;'>&nbsp;</div>", $depth);
-//        if($depth>0) {
-//            $s .= "<div style='display: inline-block;width: 20px;color: lightgrey;'>➤</div>";
-//        }
 
         $s .= "<div style='display: inline-block;'>";
         if ($is_dir) {
@@ -191,5 +196,33 @@ class CatalogueViewHandler
         }
         $s .= "</div>";
         return $s;
+    }
+
+    final public function handle()
+    {
+        ArkWebOutput::getSharedInstance()->displayPage(
+            $this->getViewPath(),
+            [
+                'viewHandler' => $this,
+            ]
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getViewPath(): string
+    {
+        return $this->viewPath;
+    }
+
+    /**
+     * @param string $viewPath
+     * @return CatalogueViewHandler
+     */
+    public function setViewPath(string $viewPath): CatalogueViewHandler
+    {
+        $this->viewPath = $viewPath;
+        return $this;
     }
 }

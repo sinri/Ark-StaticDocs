@@ -2,9 +2,12 @@
 
 use sinri\ark\StaticDocs\handler\CatalogueViewHandler;
 
-if (!isset($viewHandler)){
-    $viewHandler = (new CatalogueViewHandler)->setTitle('Unknown')->setDocRootPath('/tmp/no/such/path');
+if (!isset($viewHandler)) {
+    $viewHandler = (new CatalogueViewHandler)
+        ->setDocRootPath('/tmp/no/such/path');
 }
+
+// Override this view file to customize
 
 ?>
 <!doctype html>

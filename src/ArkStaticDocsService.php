@@ -10,6 +10,11 @@ use sinri\ark\StaticDocs\handler\DocumentViewHandler;
 use sinri\ark\StaticDocs\handler\PageErrorHandler;
 use sinri\ark\web\ArkWebService;
 
+/**
+ * Class ArkStaticDocsService
+ * @package sinri\ark\StaticDocs
+ * @version 0.1.0
+ */
 class ArkStaticDocsService
 {
     /**
@@ -46,6 +51,8 @@ class ArkStaticDocsService
         $this->pageErrorHandler = $pageErrorHandler;
         $this->documentViewHandler = $documentViewHandler;
         $this->catalogueViewHandler = $catalogueViewHandler;
+
+        $this->catalogueViewHandler->setDocRootPath($this->docRootPath);
     }
 
     public function run()
@@ -69,16 +76,10 @@ class ArkStaticDocsService
             }
         );
 
-        $this->arkWebService->getRouter()->get('catalogue', function () use ($docRootPath) {
-//            $handler=(new CatalogueViewHandler())->setTitle('Catalogue')->setDocRootPath($docRootPath);
-            $this->catalogueViewHandler->setTitle('Catalogue')->setDocRootPath($docRootPath);
-            ArkWebOutput::getSharedInstance()->displayPage(
-                __DIR__ . '/view/catalogue_page.php',
-                [
-                    'viewHandler' => $this->catalogueViewHandler,
-                ]
-            );
-        });
+        $this->arkWebService->getRouter()->get(
+            'catalogue',
+            [$this->catalogueViewHandler, 'handle']
+        );
 
         $this->arkWebService->handleRequestForWeb();
     }

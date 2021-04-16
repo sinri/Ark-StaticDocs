@@ -443,45 +443,45 @@
             "time": "2017-01-27T20:57:22+00:00"
         },
         {
-          "name": "sinri/ark",
-          "version": "3.4.1",
-          "source": {
-            "type": "git",
-            "url": "https://github.com/sinri/Ark.git",
-            "reference": "e2450e06e00af5321acd48b05d81eabc95ed6f8c"
-          },
-          "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/sinri/Ark/zipball/e2450e06e00af5321acd48b05d81eabc95ed6f8c",
-            "reference": "e2450e06e00af5321acd48b05d81eabc95ed6f8c",
-            "shasum": ""
-          },
+            "name": "sinri/ark",
+            "version": "3.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sinri/Ark.git",
+                "reference": "e2450e06e00af5321acd48b05d81eabc95ed6f8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sinri/Ark/zipball/e2450e06e00af5321acd48b05d81eabc95ed6f8c",
+                "reference": "e2450e06e00af5321acd48b05d81eabc95ed6f8c",
+                "shasum": ""
+            },
             "require": {
-              "ext-json": "*",
-              "jenssegers/agent": "^2.6",
-              "php": "~7.0",
-              "ralouphie/getallheaders": "^2.0",
-              "ralouphie/mimey": "^1.0",
-              "sinri/ark-cache": "~2.4",
-              "sinri/ark-core": "~2.7",
-              "sinri/ark-web": "~3.4"
+                "ext-json": "*",
+                "jenssegers/agent": "^2.6",
+                "php": "~7.0",
+                "ralouphie/getallheaders": "^2.0",
+                "ralouphie/mimey": "^1.0",
+                "sinri/ark-cache": "~2.4",
+                "sinri/ark-core": "~2.7",
+                "sinri/ark-web": "~3.4"
             },
             "require-dev": {
-              "ext-curl": "*",
-              "sinri/ark-curl": "~2.1",
-              "sinri/ark-pdo": "~2.0|~1.7",
-              "sinri/ark-queue": "~2.7"
+                "ext-curl": "*",
+                "sinri/ark-curl": "~2.1",
+                "sinri/ark-pdo": "~2.0|~1.7",
+                "sinri/ark-queue": "~2.7"
             },
             "suggest": {
-              "ext-pcntl": "*",
-              "sinri/ark-couchdb": "~1.0",
-              "sinri/ark-curl": "~2.1",
-              "sinri/ark-mail": "~1.2",
-              "sinri/ark-mysqli": "~1.2",
-              "sinri/ark-pdo": "~2.0",
-              "sinri/ark-qr-builder": "~1.0",
-              "sinri/ark-redis": "~1.1",
-              "sinri/ark-sqlite3": "~1.1"
+                "ext-pcntl": "*",
+                "sinri/ark-couchdb": "~1.0",
+                "sinri/ark-curl": "~2.1",
+                "sinri/ark-mail": "~1.2",
+                "sinri/ark-mysqli": "~1.2",
+                "sinri/ark-pdo": "~2.0",
+                "sinri/ark-qr-builder": "~1.0",
+                "sinri/ark-redis": "~1.1",
+                "sinri/ark-sqlite3": "~1.1"
             },
             "type": "library",
             "autoload": {
@@ -505,9 +505,9 @@
             "description": "A fundamental toolkit for PHP.",
             "support": {
                 "issues": "https://github.com/sinri/Ark/issues",
-              "source": "https://github.com/sinri/Ark/tree/3.4.1"
+                "source": "https://github.com/sinri/Ark/tree/3.4.1"
             },
-          "time": "2021-04-09T13:20:22+00:00"
+            "time": "2021-04-09T13:20:22+00:00"
         },
         {
             "name": "sinri/ark-cache",
@@ -549,20 +549,20 @@
             },
             "time": "2020-06-29T02:46:34+00:00"
         },
-      {
-        "name": "sinri/ark-core",
-        "version": "2.7.12",
-        "source": {
-          "type": "git",
-          "url": "https://github.com/sinri/Ark-Core.git",
-          "reference": "87bea4d2572a05b0b5bf120227116df56a63d26d"
-        },
-        "dist": {
-          "type": "zip",
-          "url": "https://api.github.com/repos/sinri/Ark-Core/zipball/87bea4d2572a05b0b5bf120227116df56a63d26d",
-          "reference": "87bea4d2572a05b0b5bf120227116df56a63d26d",
-          "shasum": ""
-        },
+        {
+            "name": "sinri/ark-core",
+            "version": "2.7.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sinri/Ark-Core.git",
+                "reference": "87bea4d2572a05b0b5bf120227116df56a63d26d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sinri/Ark-Core/zipball/87bea4d2572a05b0b5bf120227116df56a63d26d",
+                "reference": "87bea4d2572a05b0b5bf120227116df56a63d26d",
+                "shasum": ""
+            },
             "require": {
                 "ext-json": "*",
                 "psr/log": "~1.0"
@@ -589,24 +589,24 @@
             "description": "The core components of Ark 2",
             "support": {
                 "issues": "https://github.com/sinri/Ark-Core/issues",
-              "source": "https://github.com/sinri/Ark-Core/tree/2.7.12"
+                "source": "https://github.com/sinri/Ark-Core/tree/2.7.12"
             },
-        "time": "2021-04-11T05:36:41+00:00"
+            "time": "2021-04-11T05:36:41+00:00"
         },
-      {
-        "name": "sinri/ark-web",
-        "version": "3.4.4",
-        "source": {
-          "type": "git",
-          "url": "https://github.com/sinri/Ark-Web.git",
-          "reference": "47ed0c2f774230517282e825fccdad9075aca43c"
-        },
-        "dist": {
-          "type": "zip",
-          "url": "https://api.github.com/repos/sinri/Ark-Web/zipball/47ed0c2f774230517282e825fccdad9075aca43c",
-          "reference": "47ed0c2f774230517282e825fccdad9075aca43c",
-          "shasum": ""
-        },
+        {
+            "name": "sinri/ark-web",
+            "version": "3.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sinri/Ark-Web.git",
+                "reference": "cb1d23c7eb172bcf714603301324669f18b148fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sinri/Ark-Web/zipball/cb1d23c7eb172bcf714603301324669f18b148fd",
+                "reference": "cb1d23c7eb172bcf714603301324669f18b148fd",
+                "shasum": ""
+            },
             "require": {
                 "ext-json": "*",
                 "jenssegers/agent": "^2.6",
@@ -638,9 +638,9 @@
             "description": "Ark Web Component",
             "support": {
                 "issues": "https://github.com/sinri/Ark-Web/issues",
-              "source": "https://github.com/sinri/Ark-Web/tree/3.4.4"
+                "source": "https://github.com/sinri/Ark-Web/tree/3.4.5"
             },
-        "time": "2021-04-15T06:17:41+00:00"
+            "time": "2021-04-16T03:24:58+00:00"
         }
     ],
     "packages-dev": [],

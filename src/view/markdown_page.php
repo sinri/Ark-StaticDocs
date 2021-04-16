@@ -3,20 +3,26 @@
 use sinri\ark\StaticDocs\handler\DocumentViewHandler;
 
 if (!isset($viewHandler)) {
+    /**
+     * @var DocumentViewHandler
+     */
     $viewHandler = (new DocumentViewHandler)
-        ->setTitle('Error')
         ->setMarkdown('Input Incorrect')
         ->setComponents([]);
 }
+
+// Override this view file to customize
+
 ?>
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title><?php echo $viewHandler->getTitle(); ?></title>
-        <link rel="stylesheet" href="<?php echo $viewHandler->getRelativeWebPath().'/github-markdown-css/4.0.0/github-markdown.min.css' ?>">
-        <style>
-            body{
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title><?php echo $viewHandler->getTitle(); ?></title>
+    <link rel="stylesheet"
+          href="<?php echo $viewHandler->getRelativeWebPath() . '/github-markdown-css/4.0.0/github-markdown.min.css' ?>">
+    <style>
+        body {
                 margin: 0;
                 background: white;
             }

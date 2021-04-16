@@ -1,8 +1,8 @@
 {
   "name": "sinri/ark-static-docs",
-  "description": "A static document project with Ark",
+  "description": "A static documentation library project with Ark Web",
   "minimum-stability": "stable",
-  "type": "project",
+  "type": "library",
   "license": "MIT",
   "authors": [
     {
