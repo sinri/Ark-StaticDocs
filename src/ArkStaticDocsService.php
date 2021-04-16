@@ -124,6 +124,16 @@ class ArkStaticDocsService
             [$this->catalogueViewHandler, 'handle']
         );
 
+        // since 0.2.2
+        $this->arkWebService->setupFileSystemViewer(
+            $pathPrefix . 'static',
+            __DIR__ . '/view/static',
+            [],
+            function ($realPath, $components) {
+                ArkWebOutput::getSharedInstance()->downloadFileIndirectly($realPath);
+            }
+        );
+
         return $this;
     }
 
