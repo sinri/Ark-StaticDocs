@@ -23,6 +23,11 @@ class ArkStaticDocsService
     protected $arkWebService;
     /**
      * @var string
+     * @since 0.2.0
+     */
+    protected $pathPrefix;
+    /**
+     * @var string
      */
     protected $docRootPath;
     /**
@@ -38,9 +43,19 @@ class ArkStaticDocsService
      */
     protected $catalogueViewHandler;
 
+    /**
+     * ArkStaticDocsService constructor.
+     * @param ArkWebService $arkWebService
+     * @param string $docRootPath
+     * @param string $pathPrefix empty or 'xxx' (without tail `/`) @since 0.2.0
+     * @param PageErrorHandler|null $pageErrorHandler
+     * @param DocumentViewHandler|null $documentViewHandler
+     * @param CatalogueViewHandler|null $catalogueViewHandler
+     */
     public function __construct(
         ArkWebService $arkWebService,
         string $docRootPath,
+        string $pathPrefix = '',
         ?PageErrorHandler $pageErrorHandler = null,
         ?DocumentViewHandler $documentViewHandler = null,
         ?CatalogueViewHandler $catalogueViewHandler = null
@@ -48,6 +63,7 @@ class ArkStaticDocsService
     {
         $this->arkWebService = $arkWebService;
 
+        $this->pathPrefix = $pathPrefix;
         $this->docRootPath = $docRootPath;
 
         if ($pageErrorHandler === null) $pageErrorHandler = new PageErrorHandler();
@@ -64,6 +80,7 @@ class ArkStaticDocsService
     /**
      * @return $this
      * @since 0.1.1
+     * @since 0.2.0 support url path prefix
      */
     public function install(): ArkStaticDocsService
     {
@@ -72,8 +89,13 @@ class ArkStaticDocsService
 
         $docRootPath = $this->docRootPath;
 
+        $pathPrefix = $this->pathPrefix;
+        if (preg_match('/[^\/]$/', $pathPrefix)) {
+            $pathPrefix .= '/';
+        }
+
         $this->arkWebService->setupFileSystemViewer(
-            'read',
+            $pathPrefix . 'read',
             $docRootPath,
             [],
             [$this->documentViewHandler, 'handleFile'],
@@ -87,7 +109,7 @@ class ArkStaticDocsService
         );
 
         $this->arkWebService->getRouter()->get(
-            'catalogue',
+            $pathPrefix . 'catalogue',
             [$this->catalogueViewHandler, 'handle']
         );
 

@@ -12,6 +12,8 @@ ArkHelper::registerErrorHandlerForLogging(Ark()->logger('WebError'));
 
 // The documents directory
 $docRootPath = __DIR__ . '/../docs';
+// The prefix (scope) of URL path
+$prefix = 'doc';
 // The handler for error page
 $pageErrorHandler = (new PageErrorHandler());
 // The handler for document page (in markdown format)
@@ -22,7 +24,10 @@ $catalogueViewHandler = (new CatalogueViewHandler());
 (new ArkStaticDocsService(
     Ark()->webService(),
     $docRootPath,
+    $prefix,
     $pageErrorHandler,
     $documentViewHandler,
     $catalogueViewHandler
 ))->install()->run();
+
+// such as http://localhost/code/ArkStaticDocs/test/web/doc/read/notice.md
