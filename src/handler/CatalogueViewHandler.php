@@ -5,6 +5,7 @@ namespace sinri\ark\StaticDocs\handler;
 
 
 use sinri\ark\core\ArkFSKit;
+use sinri\ark\core\ArkHelper;
 use sinri\ark\core\Exception\NotADirectoryException;
 use sinri\ark\io\ArkWebInput;
 use sinri\ark\io\ArkWebOutput;
@@ -25,6 +26,11 @@ class CatalogueViewHandler
      */
     protected $isFromDoc;
     /**
+     * String when $isFromDoc is true, null else.
+     * @var string|null
+     */
+    protected $fromDoc;
+    /**
      * @var string
      */
     protected $viewPath;
@@ -37,7 +43,8 @@ class CatalogueViewHandler
     public function __construct()
     {
         $this->docRootPath = '/dev/null';
-        $this->isFromDoc = ArkWebInput::getSharedInstance()->readGet('from_doc', false) !== false;
+        $this->fromDoc = ArkWebInput::getSharedInstance()->readGet('from_doc');
+        $this->isFromDoc = $this->fromDoc !== null;
         $this->viewPath = __DIR__ . '/../view/catalogue_page.php';
         $this->hideIndexNode = true;
     }
@@ -149,6 +156,7 @@ class CatalogueViewHandler
                     'name' => $name,
                     'title' => 'Home',
                     'href' => $parentPath,
+                    'is_current_page' => false,
                 ];
             } else {
                 $parentPath = $parentPath . $name . '/';
@@ -156,7 +164,20 @@ class CatalogueViewHandler
                     'name' => $name,
                     'title' => $title,
                     'href' => $parentPath,
+                    'is_current_page' => false,
                 ];
+            }
+
+            if ($this->isFromDoc) {
+                if (ArkHelper::stringHasSuffix($this->fromDoc, '/index.md')) {
+                    if (($r['href'] . 'index.md') === $this->fromDoc) {
+                        $r['is_current_page'] = true;
+                    }
+                } else {
+                    if ($r['href'] === $this->fromDoc) {
+                        $r['is_current_page'] = true;
+                    }
+                }
             }
 
             // children
@@ -169,11 +190,26 @@ class CatalogueViewHandler
                     if ($this->hideIndexNode && $item === 'index.md') {
                         return;
                     }
-                    $children[] = [
+                    $r = [
                         'name' => $name,
                         'title' => $title,
                         'href' => $parentPath . $name,
+                        'is_current_page' => false,
                     ];
+
+                    if ($this->isFromDoc) {
+                        if (ArkHelper::stringHasSuffix($this->fromDoc, '/index.md')) {
+                            if (($r['href'] . 'index.md') === $this->fromDoc) {
+                                $r['is_current_page'] = true;
+                            }
+                        } else {
+                            if ($r['href'] === $this->fromDoc) {
+                                $r['is_current_page'] = true;
+                            }
+                        }
+                    }
+
+                    $children[] = $r;
                 } else {
                     $children[] = $this->dumpDocTree($itemFullPath, $parentPath);
                 }
@@ -186,11 +222,26 @@ class CatalogueViewHandler
             if ($parentPath === '') {
                 throw new NotADirectoryException("[{$root}] is not a directory for doc root.");
             }
-            return [
+            $r = [
                 'name' => $name,
                 'title' => $title,
                 'href' => $parentPath . $name,
+                'is_current_page' => false,
             ];
+
+            if ($this->isFromDoc) {
+                if (ArkHelper::stringHasSuffix($this->fromDoc, '/index.md')) {
+                    if (($r['href'] . 'index.md') === $this->fromDoc) {
+                        $r['is_current_page'] = true;
+                    }
+                } else {
+                    if ($r['href'] === $this->fromDoc) {
+                        $r['is_current_page'] = true;
+                    }
+                }
+            }
+
+            return $r;
         }
     }
 
@@ -214,6 +265,9 @@ class CatalogueViewHandler
             $s .= "<a href='{$node['href']}' target='_parent'>{$node['title']}</a>";
         } else {
             $s .= "<a href='{$node['href']}'>{$node['title']}</a>";
+        }
+        if ($node['is_current_page']) {
+            $s .= "&nbsp;<span style='color: gray;'>←</span>";
         }
         $s .= "</div>";
         if ($is_dir) {
