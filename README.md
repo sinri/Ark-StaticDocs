@@ -8,7 +8,7 @@
 directory of documents in Markdown Format.
 
 ```php
-(new sinri\ark\StaticDocs\ArkStaticDocsService(Ark()->webService(),'/path/to/docs'))->run();
+(new sinri\ark\StaticDocs\ArkStaticDocsService(Ark()->webService(),'/path/to/docs'))->install()->run();
 ```
 
 ## Page Rendering Reference

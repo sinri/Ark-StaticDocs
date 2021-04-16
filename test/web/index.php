@@ -25,4 +25,4 @@ $catalogueViewHandler = (new CatalogueViewHandler());
     $pageErrorHandler,
     $documentViewHandler,
     $catalogueViewHandler
-))->run();
+))->install()->run();

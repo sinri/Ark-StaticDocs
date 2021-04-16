@@ -61,7 +61,7 @@ class ArkStaticDocsService
         $this->catalogueViewHandler->setDocRootPath($this->docRootPath);
     }
 
-    public function run()
+    public function install()
     {
         $router = $this->arkWebService->getRouter();
         $router->setErrorHandler(new PageErrorHandler());
@@ -87,6 +87,11 @@ class ArkStaticDocsService
             [$this->catalogueViewHandler, 'handle']
         );
 
+        return $this;
+    }
+
+    public function run()
+    {
         $this->arkWebService->handleRequestForWeb();
     }
 
