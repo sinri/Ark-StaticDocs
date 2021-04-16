@@ -28,12 +28,38 @@ class CatalogueViewHandler
      * @var string
      */
     protected $viewPath;
+    /**
+     * @var bool
+     * @since 0.2.3
+     */
+    protected $hideIndexNode;
 
     public function __construct()
     {
         $this->docRootPath = '/dev/null';
         $this->isFromDoc = ArkWebInput::getSharedInstance()->readGet('from_doc', false) !== false;
         $this->viewPath = __DIR__ . '/../view/catalogue_page.php';
+        $this->hideIndexNode = true;
+    }
+
+    /**
+     * @return bool
+     * @since 0.2.3
+     */
+    public function isHideIndexNode(): bool
+    {
+        return $this->hideIndexNode;
+    }
+
+    /**
+     * @param bool $hideIndexNode
+     * @return CatalogueViewHandler
+     * @since 0.2.3
+     */
+    public function setHideIndexNode(bool $hideIndexNode): CatalogueViewHandler
+    {
+        $this->hideIndexNode = $hideIndexNode;
+        return $this;
     }
 
     /**
@@ -140,6 +166,9 @@ class CatalogueViewHandler
                 $name = basename($itemFullPath);
                 $title = DocumentViewHandler::parseNameToTitle($name);
                 if (is_file($itemFullPath)) {
+                    if ($this->hideIndexNode && $item === 'index.md') {
+                        return;
+                    }
                     $children[] = [
                         'name' => $name,
                         'title' => $title,
