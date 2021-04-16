@@ -1,5 +1,9 @@
 # Ark Static Docs
 
+![Packagist Version](https://img.shields.io/packagist/v/sinri/ark-static-docs)
+
+`composer require sinri/ark-static-docs`
+
 `Ark Static Docs` is a simple OOTB library project to support documentation, with which only one line of code, and a
 directory of documents in Markdown Format.
 
