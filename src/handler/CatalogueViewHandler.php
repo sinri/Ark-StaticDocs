@@ -86,12 +86,16 @@ class CatalogueViewHandler
 
     public function getCatalogueDiv(): string
     {
-        $r = $this->dumpDocTree($this->docRootPath);
-        $s = '<div>';
-        $s .= $this->parseDocTreeNodeToHtmlDiv($r, 0);
-        $s .= "</div>";
+        try {
+            $r = $this->dumpDocTree($this->docRootPath);
+            $s = '<div>';
+            $s .= $this->parseDocTreeNodeToHtmlDiv($r, 0);
+            $s .= "</div>";
 
-        return $s;
+            return $s;
+        } catch (NotADirectoryException $e) {
+            return "<div>{$e->getMessage()}</div>";
+        }
     }
 
     /**

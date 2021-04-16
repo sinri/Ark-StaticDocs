@@ -8,16 +8,18 @@ if (!isset($viewHandler)){
 
 ?>
 <!doctype html>
-<html>
+<html lang="en">
 <head>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title><?php echo $viewHandler->getTitle(); ?></title>
+    <!--suppress HtmlUnknownTarget -->
     <link rel="stylesheet" href="./static/github-markdown-css/4.0.0/github-markdown.min.css">
     <style>
-        body{
+        body {
             margin: 0;
             background: white;
         }
+
         #header_div {
             background-color: #dddddd;
             padding: 10px;
@@ -70,9 +72,10 @@ if (!isset($viewHandler)){
     <div id="footer_div">
         <?php echo $viewHandler->getFooterDiv(); ?>
     </div>
+    <!--suppress JSUnusedGlobalSymbols -->
     <script lang="JavaScript">
-        function locateParentToTargetPage(target){
-            window.parent.window.location=target;
+        function locateParentToTargetPage(target) {
+            window.parent.window.location = target;
         }
     </script>
 </body>

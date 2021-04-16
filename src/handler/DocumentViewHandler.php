@@ -108,8 +108,9 @@ class DocumentViewHandler
 
     /**
      * @param string $title
+     * @return DocumentViewHandler
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): DocumentViewHandler
     {
         $this->title = $title;
         return $this;
@@ -125,8 +126,9 @@ class DocumentViewHandler
 
     /**
      * @param string $markdown
+     * @return DocumentViewHandler
      */
-    public function setMarkdown(string $markdown)
+    public function setMarkdown(string $markdown): DocumentViewHandler
     {
         $this->markdown = $markdown;
         return $this;
