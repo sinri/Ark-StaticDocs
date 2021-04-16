@@ -1,11 +1,9 @@
 <?php
 
 use sinri\ark\core\ArkHelper;
-use sinri\ark\web\implement\ArkRouteErrorHandlerAsJson;
-use sinri\ark\web\implement\ArkRouteErrorHandlerAsPage;
-use sinri\ArkStaticDocs\CatalogueViewHandler;
-use sinri\ArkStaticDocs\DocumentViewHandler;
-use sinri\ArkStaticDocs\PageErrorHandler;
+use sinri\ark\StaticDocs\handler\CatalogueViewHandler;
+use sinri\ark\StaticDocs\handler\DocumentViewHandler;
+use sinri\ark\StaticDocs\handler\PageErrorHandler;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
@@ -21,7 +19,7 @@ $router->setErrorHandler(new PageErrorHandler());
 
 // todo: auto index
 
-$docRootPath=__DIR__ . '/../../docs';
+$docRootPath = __DIR__ . '/../../docs';
 
 $webService->setupFileSystemViewer(
     'read',
@@ -38,8 +36,8 @@ $webService->setupFileSystemViewer(
 );
 
 $webService->getRouter()->get('catalogue',function () use ($docRootPath) {
-   $handler=new CatalogueViewHandler('Catalogue',$docRootPath);
-   Ark()->webOutput()->displayPage(__DIR__.'/../view/catalogue_page.php',['viewHandler'=>$handler]);
+    $handler = (new CatalogueViewHandler())->setTitle('Catalogue')->setDocRootPath($docRootPath);
+    Ark()->webOutput()->displayPage(__DIR__ . '/../view/catalogue_page.php', ['viewHandler' => $handler]);
 });
 
 $webService->handleRequestForWeb();

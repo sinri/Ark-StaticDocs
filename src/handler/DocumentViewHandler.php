@@ -1,7 +1,7 @@
 <?php
 
 
-namespace sinri\ArkStaticDocs;
+namespace sinri\ark\StaticDocs\handler;
 
 
 use Parsedown;
@@ -26,11 +26,31 @@ class DocumentViewHandler
      */
     protected $components;
 
-    public function __construct(string $title, string $markdown, array $components)
+    /**
+     * @return string[]
+     */
+    public function getComponents(): array
     {
-        $this->title = $title;
-        $this->markdown = $markdown;
+        return $this->components;
+    }
+
+    /**
+     * @param string[] $components
+     * @return DocumentViewHandler
+     */
+    public function setComponents(array $components): DocumentViewHandler
+    {
         $this->components = $components;
+        return $this;
+    }
+
+    public function __construct(
+//        string $title, string $markdown, array $components
+    )
+    {
+//        $this->title = $title;
+//        $this->markdown = $markdown;
+//        $this->components = $components;
 
         $this->parseDownInstance = new Parsedown();
     }
@@ -92,6 +112,7 @@ class DocumentViewHandler
     public function setTitle(string $title)
     {
         $this->title = $title;
+        return $this;
     }
 
     /**
@@ -108,6 +129,7 @@ class DocumentViewHandler
     public function setMarkdown(string $markdown)
     {
         $this->markdown = $markdown;
+        return $this;
     }
 
     public function getParsedHtmlOfMarkdown(): string
@@ -115,7 +137,7 @@ class DocumentViewHandler
         return $this->parseDownInstance->text($this->getMarkdown());
     }
 
-    public static function handleFile(string $realPath, array $components)
+    public function handleFile(string $realPath, array $components)
     {
 //        echo json_encode(['type'=>'file','realpath'=>$realPath,'components'=>$components]);
 
@@ -125,8 +147,11 @@ class DocumentViewHandler
         $md_str = file_get_contents($realPath);
 
         Ark()->webOutput()->displayPage(
-            __DIR__ . '/view/markdown_page.php',
-            ['viewHandler' => new DocumentViewHandler($title, $md_str,$components)]
+            __DIR__ . '/../view/markdown_page.php',
+            [
+                'viewHandler' => (new static())->setTitle($title)->setMarkdown($md_str)->setComponents($components),
+                //($title, $md_str,$components)
+            ]
         );
     }
 

@@ -1,9 +1,12 @@
 <?php
 
-use sinri\ArkStaticDocs\DocumentViewHandler;
+use sinri\ark\StaticDocs\handler\DocumentViewHandler;
 
-if (!isset($viewHandler)){
-    $viewHandler=new DocumentViewHandler('Error','Input Incorrect',[]);
+if (!isset($viewHandler)) {
+    $viewHandler = (new DocumentViewHandler)
+        ->setTitle('Error')
+        ->setMarkdown('Input Incorrect')
+        ->setComponents([]);
 }
 ?>
 <!doctype html>

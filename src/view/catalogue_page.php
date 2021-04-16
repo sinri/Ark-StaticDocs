@@ -1,9 +1,9 @@
 <?php
 
-use sinri\ArkStaticDocs\CatalogueViewHandler;
+use sinri\ark\StaticDocs\handler\CatalogueViewHandler;
 
 if (!isset($viewHandler)){
-    $viewHandler=new CatalogueViewHandler('Unknown','/tmp/no/such/path');
+    $viewHandler = (new CatalogueViewHandler)->setTitle('Unknown')->setDocRootPath('/tmp/no/such/path');
 }
 
 ?>

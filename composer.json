@@ -16,7 +16,12 @@
   },
   "autoload": {
     "psr-4": {
-      "sinri\\ArkStaticDocs\\": "src/"
+      "sinri\\ark\\StaticDocs\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "sinri\\ark\\StaticDocs\\test\\": "test/"
     }
   }
 }
