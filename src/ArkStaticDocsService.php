@@ -13,7 +13,7 @@ use sinri\ark\web\ArkWebService;
 /**
  * Class ArkStaticDocsService
  * @package sinri\ark\StaticDocs
- * @version 0.1.0
+ * @version 0.1.1
  */
 class ArkStaticDocsService
 {
@@ -61,7 +61,11 @@ class ArkStaticDocsService
         $this->catalogueViewHandler->setDocRootPath($this->docRootPath);
     }
 
-    public function install()
+    /**
+     * @return $this
+     * @since 0.1.1
+     */
+    public function install(): ArkStaticDocsService
     {
         $router = $this->arkWebService->getRouter();
         $router->setErrorHandler(new PageErrorHandler());
@@ -90,6 +94,9 @@ class ArkStaticDocsService
         return $this;
     }
 
+    /**
+     * @since 0.1.1
+     */
     public function run()
     {
         $this->arkWebService->handleRequestForWeb();
