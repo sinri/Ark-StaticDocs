@@ -20,17 +20,18 @@ if (!isset($viewHandler)) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title><?php echo $viewHandler->getTitle(); ?></title>
     <link rel="stylesheet"
-          href="<?php echo $viewHandler->getRelativeWebPath() . '/github-markdown-css/4.0.0/github-markdown.min.css' ?>">
+          href="<?php echo $viewHandler->getRelativeWebPath() . '/static/github-markdown-css/4.0.0/github-markdown.min.css' ?>">
     <style>
         body {
-                margin: 0;
-                background: white;
-            }
-            #header_div {
-                background-color: #dddddd;
-                padding: 10px;
-                height: 30px;
-                position: fixed;
+            margin: 0;
+            background: white;
+        }
+
+        #header_div {
+            background-color: #dddddd;
+            padding: 10px;
+            height: 30px;
+            position: fixed;
                 top:0;
                 width: 100%;
                 line-height: 30px;
