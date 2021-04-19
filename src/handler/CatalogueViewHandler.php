@@ -112,7 +112,7 @@ class CatalogueViewHandler
      */
     public function getLogoDiv(): string
     {
-        return 'ArkStaticDocs Catalogue';
+        return 'Ark Static Docs - Catalogue';
     }
 
     /**
@@ -122,7 +122,7 @@ class CatalogueViewHandler
      */
     public function getFooterDiv(): string
     {
-        return 'Copyright Sinri Edogawa & Leqee 2021';
+        return 'Copyright Sinri Edogawa 2021. Powered by <a href="https://github.com/sinri/Ark-StaticDocs">Ark Static Docs</a>.';
     }
 
     final public function getCatalogueDiv(): string

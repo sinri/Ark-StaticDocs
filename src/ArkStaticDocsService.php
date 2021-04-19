@@ -8,6 +8,7 @@ use sinri\ark\io\ArkWebOutput;
 use sinri\ark\StaticDocs\handler\CatalogueViewHandler;
 use sinri\ark\StaticDocs\handler\DocumentViewHandler;
 use sinri\ark\StaticDocs\handler\PageErrorHandler;
+use sinri\ark\web\ArkRequestFilter;
 use sinri\ark\web\ArkRouteErrorHandlerInterface;
 use sinri\ark\web\ArkWebService;
 
@@ -91,12 +92,13 @@ class ArkStaticDocsService
 
     /**
      * Should be called before `run`.
+     * @param ArkRequestFilter[] $filters @since 0.2.5
      * @return $this
      * @since 0.1.1
      * @since 0.2.0 support url path prefix
      * @since 0.2.1 the router error handler setting is independent
      */
-    public function install(): ArkStaticDocsService
+    public function install(array $filters = []): ArkStaticDocsService
     {
         $docRootPath = $this->docRootPath;
 
@@ -108,7 +110,7 @@ class ArkStaticDocsService
         $this->arkWebService->setupFileSystemViewer(
             $pathPrefix . 'read',
             $docRootPath,
-            [],
+            $filters,
             [$this->documentViewHandler, 'handleFile'],
             function ($realPath, $components) {
                 if (file_exists($realPath . DIRECTORY_SEPARATOR . 'index.md')) {
@@ -121,14 +123,16 @@ class ArkStaticDocsService
 
         $this->arkWebService->getRouter()->get(
             $pathPrefix . 'catalogue',
-            [$this->catalogueViewHandler, 'handle']
+            [$this->catalogueViewHandler, 'handle'],
+            $filters
         );
 
         // since 0.2.2
+        // Static Source, such as CSS, JS, IMG, etc.
         $this->arkWebService->setupFileSystemViewer(
             $pathPrefix . 'static',
             __DIR__ . '/view/static',
-            [],
+            $filters,
             function ($realPath, $components) {
                 ArkWebOutput::getSharedInstance()->downloadFileIndirectly($realPath);
             }

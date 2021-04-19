@@ -85,7 +85,7 @@ class DocumentViewHandler
      */
     public function getLogoDiv(): string
     {
-        return 'ArkStaticDocs';
+        return 'Ark Static Docs - Reader';
     }
 
     /**
@@ -95,7 +95,7 @@ class DocumentViewHandler
      */
     public function getFooterDiv(): string
     {
-        return 'Copyright Sinri Edogawa & Leqee 2021';
+        return 'Copyright Sinri Edogawa 2021. Powered by <a href="https://github.com/sinri/Ark-StaticDocs">Ark Static Docs</a>.';
     }
 
     /**
