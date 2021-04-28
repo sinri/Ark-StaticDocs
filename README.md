@@ -4,14 +4,30 @@
 
 `composer require sinri/ark-static-docs`
 
-`Ark Static Docs` is a simple OOTB library project to support documentation, with which only one line of code, and a
-directory of documents in Markdown Format.
+`Ark Static Docs` is a simple OOTB library project to support documentation.
+
+## Usage
+
+First, prepare the documents in Markdown format and put them into one directory; Subdirectories are allowed, but in each
+subdirectory an `index.md` is needed. The file system name would be turned to readable title follow a simple rule:
+underline (`_`) becomes space(` `);
 
 ```php
-(new sinri\ark\StaticDocs\ArkStaticDocsService(Ark()->webService(),'/path/to/docs'))->install()->run();
+// If you give an array of ArkRequestFilter
+$filters=[];
+// The directory path where documents store
+$docRootPath='/path/to/docs';
+(new sinri\ark\StaticDocs\ArkStaticDocsService(Ark()->webService(),'/path/to/docs'))
+    ->install($filters)
+    // If the ArkWebService instance is shared, install is enough;
+    // If this service is running independently, you may run it as a swift way. 
+    ->run();
+
 ```
 
-## Page Rendering Reference
+## Other Information
+
+### Page Rendering Reference
 
 We use `erusev/parsedown` (version 1.7.4) for Markdown Rendering.
 
@@ -24,9 +40,9 @@ We use `github-markdown-css` (version 4.0.0) for HTML Style.
       crossorigin='anonymous'/>
 ```
 
-## Server Config Reference
+### Server Config Reference (Related: Ark-Web)
 
-If you use Apache to load the project, you need to add the .htaccess file and open the allow override option.
+If you use Apache to load the project, you need to add the .htaccess file and open the `allow override` option.
 
 ```apacheconf
 RewriteEngine On
@@ -37,7 +53,7 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 
 For Nginx, you should use try_files.
 
-```nginx
+```nginxconf
 server {
     location / {
         try_files $uri $uri/ /index.php$is_args$args;

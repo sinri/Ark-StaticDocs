@@ -215,6 +215,25 @@ class CatalogueViewHandler
                 }
             });
 
+            // since 0.2.6
+            usort($children, function ($a, $b) {
+                $dir_a = isset($a['children']) ? 0 : 1;
+                $dir_b = isset($b['children']) ? 0 : 1;
+                if ($dir_a !== $dir_b) {
+                    return $dir_a - $dir_b;
+                } else {
+                    $title_a = strtolower($a['title']);
+                    $title_b = strtolower($b['title']);
+                    if ($title_a > $title_b) {
+                        return 1;
+                    } elseif ($title_a < $title_b) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+
             $r['children'] = $children;
 
             return $r;
