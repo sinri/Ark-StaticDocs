@@ -8,7 +8,6 @@ use sinri\ark\io\ArkWebOutput;
 use sinri\ark\StaticDocs\handler\CatalogueViewHandler;
 use sinri\ark\StaticDocs\handler\DocumentViewHandler;
 use sinri\ark\StaticDocs\handler\PageErrorHandler;
-use sinri\ark\web\ArkRequestFilter;
 use sinri\ark\web\ArkRouteErrorHandlerInterface;
 use sinri\ark\web\ArkWebService;
 
@@ -92,7 +91,7 @@ class ArkStaticDocsService
 
     /**
      * Should be called before `run`.
-     * @param ArkRequestFilter[] $filters @since 0.2.5
+     * @param string[] $filters Each as class name of class extended ArkRequestFilter @since 0.2.7 Fixed PHPDoc @since 0.2.5
      * @return $this
      * @since 0.1.1
      * @since 0.2.0 support url path prefix
